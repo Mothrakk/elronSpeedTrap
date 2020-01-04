@@ -1,0 +1,35 @@
+#map_container, #io_container {
+    float: left;
+    position: relative;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+}
+
+#map_container {
+    border-radius: 4px;
+}
+
+#io_container {
+    margin-left: 20px;
+    background-color: darkgray;
+    padding: 4px;
+    color: black;
+}
+
+.io_row {
+    background-color: lightgray;
+    margin-top: 1px;
+    border-style: solid;
+    border-color: lightgray;
+}
+
+.grid_node {
+    position: absolute;
+    border: 1px;
+    border-style: dotted;
+}
+.grid_node:hover {
+    border-style: solid;
+    border-color: red;
+}

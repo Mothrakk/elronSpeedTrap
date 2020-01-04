@@ -5,7 +5,7 @@ import time
 import signal
 
 URL = "http://elron.ee/api/v1/map"
-FILENAME = "speedData.json"
+FILENAME = "trainData.json"
 TICKRATE_SECONDS = 8
 FAIL_RATE_SECONDS = 30
 BUFFER_RATE = 30
@@ -51,7 +51,8 @@ def loop(data: list):
     while True:
         response_data, nap_timer = request_wrapper()
         for train in response_data["data"]:
-            data.append( { k: train[k] for k in RELEVANT_DATA_KEYS } )
+            if train["kiirus"] != "0":
+                data.append( { k: train[k] for k in RELEVANT_DATA_KEYS } )
         b += 1
         if b >= BUFFER_RATE:
             update_data(data)

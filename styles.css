@@ -24,12 +24,17 @@
     border-color: lightgray;
 }
 
-.grid_node {
+.grid_node_bordered, .grid_node_unbordered {
     position: absolute;
+}
+.grid_node_bordered {
     border: 1px;
     border-style: dotted;
 }
-.grid_node:hover {
+.grid_node_unbordered {
+    border-style: none;
+}
+.grid_node_bordered:hover, .grid_node_unbordered:hover {
     border-style: solid;
     border-color: red;
 }

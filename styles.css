@@ -8,6 +8,7 @@
 
 #map_container {
     border-radius: 4px;
+    user-select: none;
 }
 
 #io_container {
@@ -24,7 +25,7 @@
     border-color: lightgray;
 }
 
-.grid_node_bordered, .grid_node_unbordered {
+.grid_node_bordered, .grid_node_unbordered, #focused_node {
     position: absolute;
 }
 .grid_node_bordered {
@@ -35,6 +36,12 @@
     border-style: none;
 }
 .grid_node_bordered:hover, .grid_node_unbordered:hover {
-    border-style: solid;
+    border: 2px;
+    border-style: dotted;
     border-color: red;
+}
+#focused_node {
+    border: 2px;
+    border-style: solid;
+    border-color: lime;
 }

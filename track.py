@@ -50,6 +50,10 @@ def loop(data: list):
 
     while True:
         response_data, nap_timer = request_wrapper()
+        if response_data["data"] is None:
+            print_wrapper("Response returned a None, sleeping for 30m")
+            time.sleep(30*60)
+            continue
         for train in response_data["data"]:
             if train["kiirus"] != "0":
                 data.append( { k: train[k] for k in RELEVANT_DATA_KEYS } )

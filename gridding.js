@@ -7,6 +7,7 @@ SE 57.669514, 28.235580
 
 let SQUARES_PER_ROW_DEFAULT = 10;
 let SQUARES_PER_COLUMN_DEFAULT = 13;
+let MAX_ALLOWED_GRID_NODES = 50;
 
 let map = document.getElementById("eesti");
 let width = map.width;
@@ -21,7 +22,7 @@ let draw_button = document.getElementById("draw");
 function valid_input(inp) {
     if (!isNaN(inp)) {
         inp = parseInt(inp);
-        if (inp > 0 && inp <= 50) {
+        if (inp > 0 && inp <= MAX_ALLOWED_GRID_NODES) {
             return true;
         }
     }
@@ -62,6 +63,17 @@ function draw_grid_nodes() {
             let grid_node = document.createElement("div");
             grid_node.className = class_name
             grid_node.style = `top: ${y}px; left: ${x}px; width: ${square_w}px; height: ${square_h}px`;
+            grid_node.onclick = function() {
+                let current_focus = document.getElementById("focused_node");
+                if (current_focus == null) {
+                    grid_node.id = "focused_node";
+                } else {
+                    if (current_focus != grid_node) {
+                        grid_node.id = "focused_node";
+                    }
+                    current_focus.id = "";
+                }
+            }
             
             map_container.appendChild(grid_node);
     

@@ -28,6 +28,12 @@ let column_input = document.getElementById("input_nodes_per_column");
 let draw_button = document.getElementById("draw");
 let specks_container = document.getElementById("specks_container");
 
+let grid_coords_label = document.getElementById("grid_label");
+let train_count_label = document.getElementById("train_count_label");
+let avg_speed_label = document.getElementById("avg_speed_label");
+let max_speed_label = document.getElementById("max_speed_label");
+let min_speed_label = document.getElementById("min_speed_label");
+
 let grid_data;
 let nodes_per_row, nodes_per_column;
 
@@ -52,6 +58,13 @@ function update_from_input() {
     } else {
         nodes_per_column = SQUARES_PER_COLUMN_DEFAULT;
     }
+}
+
+function update_data_labels(y, x) {
+    let avg_speed = Math.round(100 * grid_data[y][x]["total_speed"] / grid_data[y][x]["train_count"]) / 100;
+    grid_coords_label.innerText = `(${y}, ${x})`;
+    train_count_label.innerText = grid_data[y][x]["train_count"];
+    avg_speed_label.innerText = `${avg_speed} km/h`
 }
 
 function mapcoords_from_polarcoords(lat, long) {
@@ -114,14 +127,12 @@ function draw_grid_nodes() {
                     }
                     current_focus.id = "";
                 }
+                update_data_labels(i, j);
             }
             grid_node.onmouseover = function() {
-                let selected_grid_info = document.getElementById("selected_grid_info");
-                let node_avg_speed = grid_data[i][j]["total_speed"] / grid_data[i][j]["train_count"];
-                if (node_avg_speed != NaN) {
-                    selected_grid_info.innerText = node_avg_speed.toString();
-                } else {
-                    selected_grid_info.innerText = "-";
+                let current_focus = document.getElementById("focused_node");
+                if (current_focus == null) {
+                    update_data_labels(i, j);
                 }
             }
             map_container.appendChild(grid_node);
@@ -157,6 +168,7 @@ draw_button.onclick = function() {
     draw_grid_nodes();   
 }
 
+/*
 for (let i = 0; i < MAX_SPECK_COUNT; i++) {
     let train = TRAIN_DATA[i];
     let train_speck = document.createElement("div");
@@ -168,4 +180,5 @@ for (let i = 0; i < MAX_SPECK_COUNT; i++) {
     train_speck.style = `top: ${coords["y"]}px; left: ${coords["x"]}px`;
     specks_container.appendChild(train_speck);
 };
+*/
 draw_button.click();

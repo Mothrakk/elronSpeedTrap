@@ -24,16 +24,37 @@
                 <input id="input_nodes_per_column">
             </div>
             <button id="draw" style="margin-top: 10px">Redraw</button>
-            <span style="margin-left: 30px">Show grid borders:</span>
-            <input id="show_grid_borders" type="checkbox" checked=1>
-            <div></div>
-            <span style="margin-left: 84px">Show train specks:</span> 
-            <input id="show_train_specks" type="checkbox" checked=1>
         </div>
     
         <div class="io_container">
+            <span>Show grid borders:</span>
+            <input id="show_grid_borders" type="checkbox" checked=1>
+            <div></div>
+            <span style="padding-right: 2px;">Show train specks:</span> 
+            <input id="show_train_specks" type="checkbox" checked=1>
+        </div>
+
+        <div class="io_container">
+            <h3>Data</h3>
             <div class="io_row">
-                <div id="selected_grid_info">test</div>
+                <span>Grid coordinates:</span>
+                <span id="grid_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Train count:</span>
+                <span id="train_count_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Average speed:</span>
+                <span id="avg_speed_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Maximum speed:</span>
+                <span id="max_speed_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Minimum speed:</span>
+                <span id="min_speed_label">-</span>
             </div>
         </div>
 

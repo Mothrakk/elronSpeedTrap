@@ -1,21 +1,28 @@
-#map_container, #io_container {
+.io_wrapper {
     float: left;
     position: relative;
+}
+
+#map_container {
+    float: left;
+    position: relative;
+    border-radius: 4px;
+    user-select: none;
     border: 2px;
     border-style: solid;
     border-color: black;
 }
 
-#map_container {
-    border-radius: 4px;
-    user-select: none;
-}
-
-#io_container {
+.io_container {
+    float: none;
     margin-left: 20px;
+    margin-top: 20px;
     background-color: darkgray;
     padding: 4px;
     color: black;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
 }
 
 .io_row {
@@ -25,14 +32,13 @@
     border-color: lightgray;
 }
 
-.grid_node_bordered, .grid_node_unbordered, #focused_node {
-    position: absolute;
-}
 .grid_node_bordered {
+    position: absolute;
     border: 1px;
     border-style: dotted;
 }
 .grid_node_unbordered {
+    position: absolute;
     border-style: none;
 }
 .grid_node_bordered:hover, .grid_node_unbordered:hover {
@@ -41,7 +47,15 @@
     border-color: red;
 }
 #focused_node {
+    position: absolute;
     border: 2px;
     border-style: solid;
     border-color: lime;
+}
+
+.train_speck {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background-color: red;
 }

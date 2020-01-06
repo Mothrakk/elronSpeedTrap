@@ -9,22 +9,37 @@
     
     <div id="map_container">
         <img id="eesti" src="eesti.png">
+        <div id="specks_container"></div>
     </div>
 
-    <div id="io_container">
-        <div class="io_row">
-            <span>Nodes per row: </span>
-            <input id="input_nodes_per_row" style="margin-left: 23px">
+    <div class="io_wrapper">
+
+        <div class="io_container">
+            <div class="io_row">
+                <span>Nodes per row: </span>
+                <input id="input_nodes_per_row" style="margin-left: 23px">
+            </div>
+            <div class="io_row">
+                <span>Nodes per column: </span>
+                <input id="input_nodes_per_column">
+            </div>
+            <button id="draw" style="margin-top: 10px">Redraw</button>
+            <span style="margin-left: 30px">Show grid borders:</span>
+            <input id="show_grid_borders" type="checkbox" checked=1>
+            <div></div>
+            <span style="margin-left: 84px">Show train specks:</span> 
+            <input id="show_train_specks" type="checkbox" checked=1>
         </div>
-        <div class="io_row">
-            <span>Nodes per column: </span>
-            <input id="input_nodes_per_column">
+    
+        <div class="io_container">
+            <div class="io_row">
+                <div id="selected_grid_info">test</div>
+            </div>
         </div>
-        <button id="draw" style="margin-top: 10px">Redraw</button>
-        <span style="margin-left: 30px">Show grid borders:</span>
-        <input id="show_grid_borders" type="checkbox" checked=1>
+
     </div>
 
+    <script src="trainData.js"></script>
     <script src="gridding.js"></script>
     
   </body>

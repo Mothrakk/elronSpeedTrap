@@ -1,9 +1,16 @@
-/*
-NW 59.467433, 23.569378
-NE 59.467433, 28.235580
-SW 57.669514, 23.569378
-SE 57.669514, 28.235580
-*/
+let NW = {"latitude":59.467433, "longitude":23.569378};
+let NE = {"latitude":59.467433, "longitude":28.235580};
+let SW = {"latitude":57.669514, "longitude":23.569378};
+let SE = {"latitude":57.669514, "longitude":28.235580};
+let MAX_SPECK_COUNT = 6000;
+
+let max_lat = NW["latitude"];
+let min_lat = SW["latitude"];
+let max_long = NE["longitude"];
+let min_long = NW["longitude"];
+
+let y_scale = max_lat - min_lat;
+let x_scale = max_long - min_long;
 
 let SQUARES_PER_ROW_DEFAULT = 10;
 let SQUARES_PER_COLUMN_DEFAULT = 13;
@@ -14,10 +21,15 @@ let width = map.width;
 let height = map.height;
 
 let grid_borders_checkbox = document.getElementById("show_grid_borders");
+let train_specks_checkbox = document.getElementById("show_train_specks");
 let map_container = document.getElementById("map_container");
 let rows_input = document.getElementById("input_nodes_per_row");
 let column_input = document.getElementById("input_nodes_per_column");
 let draw_button = document.getElementById("draw");
+let specks_container = document.getElementById("specks_container");
+
+let grid_data;
+let nodes_per_row, nodes_per_column;
 
 function valid_input(inp) {
     if (!isNaN(inp)) {
@@ -29,19 +41,7 @@ function valid_input(inp) {
     return false;
 }
 
-function erase_grid_nodes() {
-    ["grid_node_bordered", "grid_node_unbordered"].forEach(function(class_name) {
-        let grid_nodes = map_container.getElementsByClassName(class_name);
-        for (let i = grid_nodes.length - 1; i >= 0; i--) {
-            grid_nodes[i].remove();
-        }
-    })
-}
-
-function draw_grid_nodes() {
-    let nodes_per_row, nodes_per_column;
-    let y = 0;
-
+function update_from_input() {
     if (valid_input(rows_input.value)) {
         nodes_per_row = parseInt(rows_input.value);
     } else {
@@ -52,6 +52,47 @@ function draw_grid_nodes() {
     } else {
         nodes_per_column = SQUARES_PER_COLUMN_DEFAULT;
     }
+}
+
+function mapcoords_from_polarcoords(lat, long) {
+    let y = Math.floor(height - ((lat - min_lat) / y_scale * height));
+    let x = Math.floor((long - min_long) / x_scale * width);
+    return {"y":y, "x":x};
+}
+
+function erase_grid_nodes() {
+    ["grid_node_bordered", "grid_node_unbordered"].forEach(function(class_name) {
+        let grid_nodes = map_container.getElementsByClassName(class_name);
+        for (let i = grid_nodes.length - 1; i >= 0; i--) {
+            grid_nodes[i].remove();
+        }
+    })
+}
+
+function compile_data() {
+    let y_step = height / nodes_per_column;
+    let x_step = width / nodes_per_row;
+    grid_data = [];
+    for (let y = 0; y < nodes_per_column; y++) {
+        grid_data[y] = [];
+        for (let x = 0; x < nodes_per_row; x++) {
+            grid_data[y][x] = {"total_speed":0, "train_count":0};
+        }
+    }
+    TRAIN_DATA.forEach(function(train) {
+        let coords = mapcoords_from_polarcoords(
+            parseFloat(train["latitude"]),
+            parseFloat(train["longitude"])
+        );
+        let y = Math.floor(coords["y"] / y_step);
+        let x = Math.floor(coords["x"] / x_step);
+        grid_data[y][x]["train_count"]++;
+        grid_data[y][x]["total_speed"] += parseInt(train["kiirus"]);
+    })
+}
+
+function draw_grid_nodes() {
+    let y = 0;
 
     let square_w = Math.floor(width / nodes_per_row);
     let square_h = Math.floor(height / nodes_per_column);
@@ -74,9 +115,16 @@ function draw_grid_nodes() {
                     current_focus.id = "";
                 }
             }
-            
+            grid_node.onmouseover = function() {
+                let selected_grid_info = document.getElementById("selected_grid_info");
+                let node_avg_speed = grid_data[i][j]["total_speed"] / grid_data[i][j]["train_count"];
+                if (node_avg_speed != NaN) {
+                    selected_grid_info.innerText = node_avg_speed.toString();
+                } else {
+                    selected_grid_info.innerText = "-";
+                }
+            }
             map_container.appendChild(grid_node);
-    
             x += square_w;
         }
         y += square_h;
@@ -98,9 +146,26 @@ grid_borders_checkbox.onchange = function() {
     }
 }
 
+train_specks_checkbox.onchange = function() {
+    specks_container.hidden = !train_specks_checkbox.checked;
+}
+
 draw_button.onclick = function() {
+    update_from_input();
     erase_grid_nodes();
+    compile_data();
     draw_grid_nodes();   
 }
 
-draw_grid_nodes();
+for (let i = 0; i < MAX_SPECK_COUNT; i++) {
+    let train = TRAIN_DATA[i];
+    let train_speck = document.createElement("div");
+    train_speck.className = "train_speck";
+    let coords = mapcoords_from_polarcoords(
+        parseFloat(train["latitude"]),
+        parseFloat(train["longitude"])
+    );
+    train_speck.style = `top: ${coords["y"]}px; left: ${coords["x"]}px`;
+    specks_container.appendChild(train_speck);
+};
+draw_button.click();

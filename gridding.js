@@ -17,16 +17,16 @@ let SQUARES_PER_COLUMN_DEFAULT = 13;
 let MAX_ALLOWED_GRID_NODES = 50;
 
 let map = document.getElementById("eesti");
+let trains_overlay = document.getElementById("trains_overlay");
 let width = map.width;
 let height = map.height;
 
 let grid_borders_checkbox = document.getElementById("show_grid_borders");
 let train_specks_checkbox = document.getElementById("show_train_specks");
-let map_container = document.getElementById("map_container");
+let grids_container = document.getElementById("grids_container");
 let rows_input = document.getElementById("input_nodes_per_row");
 let column_input = document.getElementById("input_nodes_per_column");
 let draw_button = document.getElementById("draw");
-let specks_container = document.getElementById("specks_container");
 
 let grid_coords_label = document.getElementById("grid_label");
 let train_count_label = document.getElementById("train_count_label");
@@ -61,7 +61,7 @@ function update_from_input() {
 }
 
 function update_data_labels(y, x) {
-    let avg_speed = Math.round(100 * grid_data[y][x]["total_speed"] / grid_data[y][x]["train_count"]) / 100;
+    let avg_speed = (grid_data[y][x]["total_speed"] / grid_data[y][x]["train_count"]).toFixed(2);
     grid_coords_label.innerText = `(${y}, ${x})`;
     train_count_label.innerText = grid_data[y][x]["train_count"];
     avg_speed_label.innerText = `${avg_speed} km/h`
@@ -75,7 +75,7 @@ function mapcoords_from_polarcoords(lat, long) {
 
 function erase_grid_nodes() {
     ["grid_node_bordered", "grid_node_unbordered"].forEach(function(class_name) {
-        let grid_nodes = map_container.getElementsByClassName(class_name);
+        let grid_nodes = grids_container.getElementsByClassName(class_name);
         for (let i = grid_nodes.length - 1; i >= 0; i--) {
             grid_nodes[i].remove();
         }
@@ -135,7 +135,7 @@ function draw_grid_nodes() {
                     update_data_labels(i, j);
                 }
             }
-            map_container.appendChild(grid_node);
+            grids_container.appendChild(grid_node);
             x += square_w;
         }
         y += square_h;
@@ -145,10 +145,10 @@ function draw_grid_nodes() {
 grid_borders_checkbox.onchange = function() {
     let grids_to_edit, class_to_insert;
     if (grid_borders_checkbox.checked) {
-        grids_to_edit = map_container.getElementsByClassName("grid_node_unbordered");
+        grids_to_edit = grids_container.getElementsByClassName("grid_node_unbordered");
         class_to_insert = "grid_node_bordered";
     } else {
-        grids_to_edit = map_container.getElementsByClassName("grid_node_bordered");
+        grids_to_edit = grids_container.getElementsByClassName("grid_node_bordered");
         class_to_insert = "grid_node_unbordered";
     }
 
@@ -158,7 +158,7 @@ grid_borders_checkbox.onchange = function() {
 }
 
 train_specks_checkbox.onchange = function() {
-    specks_container.hidden = !train_specks_checkbox.checked;
+    trains_overlay.hidden = !train_specks_checkbox.checked;
 }
 
 draw_button.onclick = function() {
@@ -168,17 +168,4 @@ draw_button.onclick = function() {
     draw_grid_nodes();   
 }
 
-/*
-for (let i = 0; i < MAX_SPECK_COUNT; i++) {
-    let train = TRAIN_DATA[i];
-    let train_speck = document.createElement("div");
-    train_speck.className = "train_speck";
-    let coords = mapcoords_from_polarcoords(
-        parseFloat(train["latitude"]),
-        parseFloat(train["longitude"])
-    );
-    train_speck.style = `top: ${coords["y"]}px; left: ${coords["x"]}px`;
-    specks_container.appendChild(train_speck);
-};
-*/
 draw_button.click();

@@ -9,8 +9,10 @@
     
     <div id="map_container">
         <img id="eesti" src="eesti.png">
-        <div id="specks_container"></div>
+        <img id="trains_overlay" src="overlay.png" style="position: absolute; left:0px">
+        <div id="grids_container"></div>
     </div>
+
 
     <div class="io_wrapper">
 
@@ -27,10 +29,10 @@
         </div>
     
         <div class="io_container">
-            <span>Show grid borders:</span>
+            <span style="padding-right: 9px;">Show grid borders:</span>
             <input id="show_grid_borders" type="checkbox" checked=1>
             <div></div>
-            <span style="padding-right: 2px;">Show train specks:</span> 
+            <span>Show trains overlay:</span> 
             <input id="show_train_specks" type="checkbox" checked=1>
         </div>
 

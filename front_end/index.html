@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>elronSpeedTrap</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <div id="map_container">
+        <img id="eesti" src="eesti.png">
+        <img id="trains_overlay" src="overlay.png" style="position: absolute; left:0px">
+        <div id="grids_container"></div>
+    </div>
+
+
+    <div class="io_wrapper">
+
+        <div class="io_container">
+            <div class="io_row">
+                <span>Nodes per row: </span>
+                <input id="input_nodes_per_row" style="margin-left: 23px">
+            </div>
+            <div class="io_row">
+                <span>Nodes per column: </span>
+                <input id="input_nodes_per_column">
+            </div>
+            <button id="draw" style="margin-top: 10px">Redraw</button>
+        </div>
+    
+        <div class="io_container">
+            <span style="padding-right: 9px;">Show grid borders:</span>
+            <input id="show_grid_borders" type="checkbox" checked=1>
+            <div></div>
+            <span>Show trains overlay:</span> 
+            <input id="show_train_specks" type="checkbox" checked=1>
+        </div>
+
+        <div class="io_container">
+            <h3>Data</h3>
+            <div class="io_row">
+                <span>Grid coordinates:</span>
+                <span id="grid_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Train count:</span>
+                <span id="train_count_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Average speed:</span>
+                <span id="avg_speed_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Maximum speed:</span>
+                <span id="max_speed_label">-</span>
+            </div>
+            <div class="io_row">
+                <span>Minimum speed:</span>
+                <span id="min_speed_label">-</span>
+            </div>
+        </div>
+
+        <div id="loading_notice" class="io_container" style="color: red; background-color: black;">
+            Loading in content...
+        </div>
+
+    </div>
+
+    <script src="compiled.js"></script>
+    <script src="gridding.js"></script>
+    <script>
+        document.getElementById("loading_notice").remove();
+    </script>
+    
+  </body>
+</html>

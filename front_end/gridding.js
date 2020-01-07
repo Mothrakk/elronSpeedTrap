@@ -21,16 +21,14 @@ let rows_input = document.getElementById("input_nodes_per_row");
 let column_input = document.getElementById("input_nodes_per_column");
 let draw_button = document.getElementById("draw");
 
-rows_input.placeholder = SQUARES_PER_ROW_DEFAULT;
-column_input.placeholder = SQUARES_PER_COLUMN_DEFAULT;
+rows_input.placeholder = `default ${SQUARES_PER_ROW_DEFAULT} max ${MAX_ALLOWED_GRID_NODES}`;
+column_input.placeholder = `default ${SQUARES_PER_COLUMN_DEFAULT} max ${MAX_ALLOWED_GRID_NODES}`;
 
 let grid_coords_label = document.getElementById("grid_label");
 let train_count_label = document.getElementById("train_count_label");
 let avg_speed_label = document.getElementById("avg_speed_label");
 let max_speed_label = document.getElementById("max_speed_label");
-let min_speed_label = document.getElementById("min_speed_label");
 
-let grid_data;
 let nodes_per_row, nodes_per_column;
 
 function valid_input(inp) {

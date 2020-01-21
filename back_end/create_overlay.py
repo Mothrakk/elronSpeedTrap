@@ -4,16 +4,19 @@ import json
 
 argparser = argparse.ArgumentParser(description="Create a graphical layout of the train data spots")
 argparser.add_argument("data_filename", help="Filepath to the trains data")
-argparser.add_argument("out_filename", default="overlay.png")
+argparser.add_argument("path_to_map_data", help="File from which to read map data")
+argparser.add_argument("out_filename", help="File to write image data to")
 args = argparser.parse_args()
 
-WIDTH = 852
-HEIGHT = 626
+with open(args.path_to_map_data, "r") as fptr:
+    parsed = json.loads(fptr.read())
 
-MAX_LAT = 59.467433
-MIN_LAT = 57.669514
-MAX_LONG = 28.235580
-MIN_LONG = 23.569378
+MAX_LAT = parsed["MAX_LAT"]
+MIN_LAT = parsed["MIN_LAT"]
+MAX_LONG = parsed["MAX_LONG"]
+MIN_LONG = parsed["MIN_LONG"]
+HEIGHT = parsed["HEIGHT"]
+WIDTH = parsed["WIDTH"]
 
 y_scale = MAX_LAT - MIN_LAT
 x_scale = MAX_LONG - MIN_LONG

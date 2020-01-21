@@ -2,26 +2,31 @@ import json
 import argparse
 
 argparser = argparse.ArgumentParser(description="Pre-compile grid data for the front-end")
-argparser.add_argument("width", type=int, help="width of map image")
-argparser.add_argument("height", type=int, help="height of map image")
-argparser.add_argument("min_lat", type=float, help="minimum latitude in the given map area")
-argparser.add_argument("max_lat", type=float, help="maximum latitude in the given map area")
-argparser.add_argument("min_long", type=float, help="minimum longitude in the given map area")
-argparser.add_argument("max_long", type=float, help="maximum longitude in the given map area")
+argparser.add_argument("path_to_map_data", help="File from which to read map data")
 argparser.add_argument("-p", "--path", default="trainData.json", help="path to the raw json data file")
 argparser.add_argument("-o", "--out", default="compiled.js", help="path to the output js file")
 argparser.add_argument("-x", type=int, default=50, help="maximum possible length of grids in a row")
 argparser.add_argument("-y", type=int, default=50, help="maximum possible length of grids in a column")
 args = argparser.parse_args()
 
-y_scale = args.max_lat - args.min_lat
-x_scale = args.max_long - args.min_long
+with open(args.path_to_map_data, "r") as fptr:
+    parsed = json.loads(fptr.read())
+
+MAX_LAT = parsed["MAX_LAT"]
+MIN_LAT = parsed["MIN_LAT"]
+MAX_LONG = parsed["MAX_LONG"]
+MIN_LONG = parsed["MIN_LONG"]
+HEIGHT = parsed["HEIGHT"]
+WIDTH = parsed["WIDTH"]
+
+y_scale = MAX_LAT - MIN_LAT
+x_scale = MAX_LONG - MIN_LONG
 
 def gridcoords_from_polarcoords(lat: float, long: float, nodes_per_column: int, nodes_per_row: int):
-    y_step = args.height / nodes_per_column
-    x_step = args.width / nodes_per_row
-    y = args.height - ((lat - args.min_lat) / y_scale * args.height)
-    x = (long - args.min_long) / x_scale * args.width
+    y_step = HEIGHT / nodes_per_column
+    x_step = WIDTH / nodes_per_row
+    y = HEIGHT - ((lat - MIN_LAT) / y_scale * HEIGHT)
+    x = (long - MIN_LONG) / x_scale * WIDTH
     y = int(y / y_step)
     x = int(x / x_step)
     return y, x

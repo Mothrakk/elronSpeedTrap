@@ -34,13 +34,13 @@ img = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
 pixels = img.load()
 
 for i, train in enumerate(trains_data):
-    y, x = mapcoords_from_polarcoords(
-        float(train["latitude"]),
-        float(train["longitude"])
-    )
-    pixels[x, y] = (255, 0, 0, 255)
-    if not i % 100:
-        print(f"{i+1} / {len(trains_data)}", end="\r")
+    lat = float(train["latitude"])
+    long = float(train["longitude"])
+    if (MIN_LAT <= lat <= MAX_LAT) and (MIN_LONG <= long <= MAX_LONG):
+        y, x = mapcoords_from_polarcoords(lat, long)
+        pixels[x, y] = (255, 0, 0, 255)
+        if not i % 100:
+            print(f"{i+1} / {len(trains_data)}", end="\r")
 
 img.save(args.out_filename, "PNG")
 print(f"Exported to {args.out_filename}")

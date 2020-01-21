@@ -1,18 +1,11 @@
-/*
-let NW = {"latitude":59.467433, "longitude":23.569378};
-let NE = {"latitude":59.467433, "longitude":28.235580};
-let SW = {"latitude":57.669514, "longitude":23.569378};
-let SE = {"latitude":57.669514, "longitude":28.235580};
-*/
-
 let SQUARES_PER_ROW_DEFAULT = 10;
 let SQUARES_PER_COLUMN_DEFAULT = 13;
 let MAX_ALLOWED_GRID_NODES = 50;
 
-let map = document.getElementById("eesti");
+let MAP = document.getElementById("MAP");
 let trains_overlay = document.getElementById("trains_overlay");
-let width = map.width;
-let height = map.height;
+let width = MAP.width;
+let height = MAP.height;
 
 let grid_borders_checkbox = document.getElementById("show_grid_borders");
 let train_specks_checkbox = document.getElementById("show_train_specks");

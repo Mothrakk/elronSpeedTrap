@@ -51,10 +51,3 @@
     border-style: solid;
     border-color: lime;
 }
-
-.train_speck {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    background-color: red;
-}

@@ -4,8 +4,11 @@ let MAX_ALLOWED_GRID_NODES = 50;
 
 let MAP = document.getElementById("MAP");
 let trains_overlay = document.getElementById("trains_overlay");
-let width = MAP.width;
-let height = MAP.height;
+
+let map_buttons = [
+    document.getElementById("eesti_map_button"),
+    document.getElementById("harjumaa_map_button")
+];
 
 let grid_borders_checkbox = document.getElementById("show_grid_borders");
 let train_specks_checkbox = document.getElementById("show_train_specks");
@@ -32,6 +35,20 @@ function valid_input(inp) {
         }
     }
     return false;
+}
+
+function bind_map_buttons() {
+    map_buttons.forEach(function(mb) {
+        mb.onclick = function() {
+            let n = mb.innerHTML.toLowerCase();
+            let m = `maps/${n}.png`;
+            if (m != MAP.getAttribute("src")) {
+                MAP.src = m;
+                trains_overlay.src = `overlays/${n}.png`;
+                erase_grid_nodes();
+            }
+        }
+    });
 }
 
 function update_from_input() {
@@ -76,8 +93,8 @@ function erase_grid_nodes() {
 function draw_grid_nodes() {
     let y = 0;
 
-    let square_w = Math.floor(width / nodes_per_row);
-    let square_h = Math.floor(height / nodes_per_column);
+    let square_w = Math.floor(MAP.width / nodes_per_row);
+    let square_h = Math.floor(MAP.height / nodes_per_column);
     let class_name = (grid_borders_checkbox.checked ? "grid_node_bordered" : "grid_node_unbordered");
 
     for (let i = 0; i < nodes_per_column; i++) {
@@ -136,4 +153,5 @@ draw_button.onclick = function() {
     draw_grid_nodes();   
 }
 
+bind_map_buttons();
 draw_button.click();

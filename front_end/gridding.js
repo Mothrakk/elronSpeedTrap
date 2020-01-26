@@ -45,7 +45,7 @@ function bind_map_buttons() {
             if (m != MAP.getAttribute("src")) {
                 MAP.src = m;
                 trains_overlay.src = `overlays/${n}.png`;
-                erase_grid_nodes();
+                setTimeout(function(){draw_button.click();}, 10);
             }
         }
     });
